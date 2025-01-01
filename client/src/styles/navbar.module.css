@@ -1,0 +1,60 @@
+.navbar {
+  @apply bg-white shadow p-4 pt-10 font-custom;
+}
+
+.navbar_container {
+  @apply container mx-auto flex items-center justify-between gap-4;
+}
+
+.navbar_logo {
+  @apply text-sm sm:text-xl font-bold;
+}
+
+.navbar_links {
+  @apply hidden md:flex space-x-10 text-gray-700 font-medium;
+}
+
+.navbar_link {
+  @apply hover:text-gray-900;
+}
+
+.navbar_link_active {
+  @apply underline decoration-gray-300 decoration-2 underline-offset-8;
+}
+
+.search_input {
+  @apply border rounded-md text-xs sm:text-sm bg-slate-50 px-1 py-1 w-40 sm:w-60  focus:outline-none focus:ring-2 focus:ring-slate-500 pr-10;
+  font-size: 0.5rem;
+
+  @screen sm {
+    font-size: 0.75rem;
+  }
+}
+
+.search_icon {
+  @apply absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer;
+}
+
+.icon {
+  @apply text-gray-700 text-xl cursor-pointer hover:text-gray-900 hidden sm:flex;
+}
+
+.cart_badge {
+  @apply absolute top-0 right-0 translate-x-1/2 translate-y-0 bg-red-600 text-white text-xs font-bold rounded-full px-1;
+}
+
+.account_circle {
+  @apply rounded-full bg-red-600 hidden sm:flex items-center justify-center cursor-pointer p-1;
+}
+
+.dropdown_menu {
+  @apply absolute right-0 mt-2 w-40 bg-gradient-to-br from-purple-300 via-gray-400 to-black text-white border rounded-md shadow-lg;
+}
+
+.dropdown_item {
+  @apply block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100;
+}
+
+.dropdown_logout {
+  @apply w-full text-left block px-4 py-2 text-sm text-red-600 hover:bg-gray-100;
+}

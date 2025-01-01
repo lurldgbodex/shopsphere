@@ -1,0 +1,51 @@
+.auth-container {
+  @apply flex flex-wrap items-center md:flex-nowrap gap-4 md:justify-between md:pr-10 text-xs font-custom md:my-10;
+}
+
+.form-section {
+  @apply w-full flex flex-wrap mb-4 max-w-md;
+}
+
+.form {
+  @apply w-full flex flex-col gap-4 p-4;
+}
+
+.form-title {
+  @apply text-3xl text-center md:text-left;
+}
+
+.form-subtitle {
+  @apply text-center mb-4 md:text-left;
+}
+
+.input-field {
+  @apply border-b p-2 border-gray-400 focus:outline-none w-full;
+}
+
+.button-section {
+  @apply flex justify-between items-center my-2;
+}
+
+.button {
+  @apply w-2/5 bg-red-700 p-2 text-base text-white rounded-md;
+}
+
+.signup-button {
+  @apply w-full p-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition text-sm;
+}
+
+.google-button-section {
+  @apply flex flex-col px-4 w-full;
+}
+
+.google-button {
+  @apply w-full p-2 bg-white border border-gray-400 rounded-md text-sm hover:bg-gray-300 transition mb-8;
+}
+
+.forgot-password {
+  @apply text-red-500;
+}
+
+.nav-link {
+  @apply text-blue-500 hover:underline;
+}

@@ -1,0 +1,16 @@
+.banner-container {
+  @apply bg-black text-xs h-10 font-custom flex items-center justify-around p-4;
+  font-size: xx-small;
+
+  @screen sm {
+    font-size: small;
+  }
+}
+
+.content {
+  @apply text-slate-400 text-center p-2;
+}
+
+.language {
+  @apply flex items-center;
+}

@@ -1,0 +1,44 @@
+.footer {
+  @apply bg-black text-slate-300 p-4 text-xs font-custom;
+  font-size: 0.7rem;
+}
+
+.footer-container {
+  @apply flex flex-wrap sm:flex-nowrap justify-between sm:justify-around gap-4 md:flex-row sm:mt-10 sm:mb-10;
+}
+
+.footer-section {
+  @apply flex flex-col flex-wrap justify-between gap-3 w-full sm:w-1/2 md:w-1/6;
+}
+
+.footer-title {
+  @apply text-sm text-white font-extrabold;
+}
+
+.footer-subtitle {
+  @apply text-sm text-white pb-2;
+}
+
+.icon {
+  @apply cursor-pointer hover:underline;
+}
+
+.subscribe-container {
+  @apply flex items-center relative w-full;
+}
+
+.subscribe-input {
+  @apply py-2 px-3 bg-black border w-full text-gray-400 focus:outline-none pr-10;
+}
+
+.send-icon {
+  @apply absolute right-3 text-lg text-white cursor-pointer;
+}
+
+.social-icons i {
+  @apply text-red-700 cursor-pointer;
+}
+
+.footer-bottom {
+  @apply text-center mt-6 text-slate-500 border-t border-slate-900 p-2;
+}

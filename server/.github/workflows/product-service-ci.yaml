@@ -1,0 +1,15 @@
+name: Product Service CI/CD
+
+on:
+  push:
+    paths:
+      - 'server/product-service/**'
+
+jobs:
+  call-reusable:
+    uses: ./server/.github/workflows/reusable-workflow.yaml
+    with:
+      service-name: product-service
+    secrets:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}

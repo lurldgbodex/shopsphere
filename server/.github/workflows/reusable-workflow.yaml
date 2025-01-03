@@ -1,0 +1,38 @@
+name: Reusable CI Workflow
+
+on:
+  workflow_call:
+    inputs:
+      service-name:
+        required: true
+        type: string
+    secrets:
+      DOCKER_USERNAME:
+        required: true
+      DOCKER_PASSWORD:
+        required: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+
+      - name: set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: build with maven
+        run: mvn clean install -DskipTests=true
+
+      - name: Build docker image
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/shopsphere/${{ inputs.service_name }}:latest .
+
+      - name: push docker image
+        run: |
+          echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+          docker push ${{ secrets.DOCKER_USERNAME }}/shopsphere/${{ inputs.service_name }}:latest

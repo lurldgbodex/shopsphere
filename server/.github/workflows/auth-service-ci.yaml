@@ -4,6 +4,9 @@ on:
   push:
     paths:
       - 'server/auth-service/**'
+  pull_request:
+    paths:
+      - 'server/auth-service/**'
 
 jobs:
   call-reuseable:

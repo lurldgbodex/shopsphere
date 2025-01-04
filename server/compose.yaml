@@ -9,7 +9,7 @@ services:
     ports:
       - '5435:5432'
     volumes:
-      - postgres:/var/lib/postgres/data
+      - postgres:/var/lib/postgresql/data
     restart: unless-stopped
     networks:
       - shopsphere-net
@@ -34,7 +34,10 @@ services:
     networks:
       - shopsphere-net
     healthcheck:
-      test: ["CMD", "mongo", "--eval", "db.runCommand('ping').ok"]
+      test: ["CMD", "mongo", "-u", "${MONGO_USER}", "-p", "${MONGO_PASSWORD}", "--eval", "db.runCommand('ping').ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   auth-service:
     build: ./auth-service
@@ -65,7 +68,9 @@ services:
       - "8081:8080"
     environment:
       SPRING_PROFILES_ACTIVE: docker
-      SPRING_DATA_MONGODB_URI: mongodb://mongo:27017/
+      SPRING_DATA_MONGODB_URI: mongodb://mongo:27017/products_db
+    depends_on:
+      - mongodb
     networks:
       - shopsphere-net
     logging:

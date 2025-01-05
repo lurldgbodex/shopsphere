@@ -79,6 +79,24 @@ services:
         max-size: "10m"
         max-file: "3"
 
+  discovery-server:
+    build: ./discovery-server
+    container_name: discovery-server
+    ports:
+      - "8761:8761"
+    networks:
+      - shopsphere-net
+
+  gateway-service:
+    build: ./gateway-service
+    container_name: gateway-service
+    ports:
+      - "8080:8080"
+    depends_on:
+      - discovery-server
+      - auth-service
+      - product-service
+
 networks:
   shopsphere-net:
     driver: bridge

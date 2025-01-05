@@ -2,6 +2,9 @@ FROM eclipse-temurin:17-jre-alpine as build
 LABEL authors="lurldgbodex"
 WORKDIR /workspace/app
 
+COPY . .
+RUN mvn clean package
+
 RUN mkdir -p target/extracted
 
 ADD target/*.jar app.jar

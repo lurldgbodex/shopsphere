@@ -37,7 +37,7 @@ public class SecurityConfig {
 
         configuration.setAllowedOrigins(List.of("*")); // todo: restrict allowed origins
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
-        configuration.setAllowedHeaders(List.of("Authorization", "content-Type"));
+        configuration.setAllowedHeaders(List.of("Authorization", "content-Type", "X-User-Id", "X-User-Email"));
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

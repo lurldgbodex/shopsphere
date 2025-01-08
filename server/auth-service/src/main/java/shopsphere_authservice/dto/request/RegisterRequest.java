@@ -3,7 +3,9 @@ package shopsphere_authservice.dto.request;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import lombok.Builder;
 
+@Builder
 public record RegisterRequest (
 
     @NotBlank(message = "email is required")

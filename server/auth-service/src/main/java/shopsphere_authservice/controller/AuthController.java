@@ -18,7 +18,7 @@ import shopsphere_authservice.service.AuthService;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/auth")
-public class UserController {
+public class AuthController {
 
     private final AuthService authService;
 

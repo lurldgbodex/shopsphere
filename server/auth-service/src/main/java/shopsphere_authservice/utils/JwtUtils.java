@@ -1,0 +1,35 @@
+package shopsphere_authservice.utils;
+
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import javax.crypto.SecretKey;
+import java.util.Date;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+@Component
+public class JwtUtils {
+
+    private static final long JWT_TOKEN_VALID_TIME = TimeUnit.HOURS.toMillis(1);
+
+    @Value("${jwt.secret}")
+    private String secret;
+
+    public String generateToken(String email, Map<String, Object> claims) {
+        return Jwts.builder()
+                .claims(claims)
+                .subject(email)
+                .issuedAt(new Date())
+                .expiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALID_TIME))
+                .signWith(generateSigningKey())
+                .compact();
+    }
+
+    private SecretKey generateSigningKey() {
+        byte[] keyInBytes = secret.getBytes();
+        return Keys.hmacShaKeyFor(keyInBytes);
+    }
+}

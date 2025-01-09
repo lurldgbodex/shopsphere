@@ -10,6 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import shopsphere_authservice.dto.request.GoogleLoginRequest;
 import shopsphere_authservice.dto.request.LoginRequest;
+import shopsphere_authservice.dto.request.RefreshTokenRequest;
 import shopsphere_authservice.dto.request.RegisterRequest;
 import shopsphere_authservice.dto.response.UserResponse;
 import shopsphere_authservice.entity.User;
@@ -35,6 +36,7 @@ class AuthServiceTest {
     @Mock private JwtUtils jwtUtils;
     @Mock private PasswordEncoder passwordEncoder;
     @Mock private GoogleAuthService googleAuthService;
+    @Mock private RefreshTokenService refreshTokenService;
 
     @Nested
     class RegisterUserTests {
@@ -45,6 +47,7 @@ class AuthServiceTest {
             when(passwordEncoder.encode(request.password())).thenReturn("encoded-password");
 
             when(jwtUtils.generateToken(eq("test@user.com"), anyMap())).thenReturn("dummy-token");
+            when(refreshTokenService.createRefreshToken("test@user.com")).thenReturn("refresh-token");
 
             when(userRepository.saveAndFlush(any(User.class))).thenAnswer(invocation -> {
                 User user = invocation.getArgument(0);
@@ -68,6 +71,7 @@ class AuthServiceTest {
 
             assertNotNull(response.access_token());
             assertEquals("dummy-token", response.access_token());
+            assertEquals("refresh-token", response.refresh_token());
         }
 
 
@@ -93,7 +97,7 @@ class AuthServiceTest {
         void shouldLoginUser() {
             User user = User.builder()
                     .id(55L)
-                    .email("test@user.email")
+                    .email("test@user.com")
                     .password("encoded-password")
                     .role(UserRole.VENDOR)
                     .build();
@@ -107,13 +111,15 @@ class AuthServiceTest {
             Map<String, Object> claims = new HashMap<>();
             claims.put("role", user.getRole());
 
+            when(jwtUtils.generateToken(user.getEmail(), claims)).thenReturn(token);
             when(userRepository.findByEmail(request.email())).thenReturn(Optional.of(user));
             when(passwordEncoder.matches(request.password(), user.getPassword())).thenReturn(true);
-            when(jwtUtils.generateToken(user.getEmail(), claims)).thenReturn(token);
+            when(refreshTokenService.createRefreshToken(request.email())).thenReturn("refresh-token");
 
             UserResponse response = underTest.login(request);
 
             assertEquals(response.access_token(), token);
+            assertEquals(response.refresh_token(), "refresh-token");
             verify(userRepository).findByEmail(request.email());
             verify(passwordEncoder).matches(anyString(), anyString());
             verify(jwtUtils).generateToken(anyString(), anyMap());
@@ -172,7 +178,7 @@ class AuthServiceTest {
             String googleId = "google-id";
 
             GoogleLoginRequest request = new GoogleLoginRequest();
-            request.setIdToken("idToken");
+            request.setId_token("idToken");
 
             when(googleAuthService.verifyGoogleToken("idToken")).thenReturn(googleId);
             when(userRepository.findByGoogleId(googleId)).thenReturn(Optional.empty());
@@ -205,7 +211,7 @@ class AuthServiceTest {
         @Test
         void googleLogin_whenUserExist() {
             GoogleLoginRequest request = new GoogleLoginRequest();
-            request.setIdToken("idToken");
+            request.setId_token("idToken");
 
             String googleId = "google-id";
             User user = User.builder()
@@ -218,7 +224,7 @@ class AuthServiceTest {
             Map<String, Object> claims = new HashMap<>();
             claims.put("role", user.getRole());
 
-            when(googleAuthService.verifyGoogleToken(request.getIdToken())).thenReturn(googleId);
+            when(googleAuthService.verifyGoogleToken(request.getId_token())).thenReturn(googleId);
             when(userRepository.findByGoogleId(googleId)).thenReturn(Optional.of(user));
             when(jwtUtils.generateToken(user.getEmail(), claims)).thenReturn("dummy-token");
 
@@ -226,6 +232,37 @@ class AuthServiceTest {
 
             assertEquals("dummy-token", response.access_token());
             verify(userRepository, never()).save(any(User.class));
+        }
+    }
+
+    @Nested
+    class RefreshTokenTest {
+
+        @Test
+        void refreshTokenSuccess() {
+            User user = User.builder()
+                    .email("test@user.com")
+                    .role(UserRole.VENDOR)
+                    .build();
+
+            doNothing().when(refreshTokenService).validateRefreshToken(anyString());
+            when(jwtUtils.validateToken(anyString())).thenReturn("test@user.com");
+            when(userRepository.findByEmail("test@user.com")).thenReturn(Optional.of(user));
+            when(jwtUtils.generateToken(anyString(), anyMap())).thenReturn("new-dummy-token");
+            when(refreshTokenService.createRefreshToken("test@user.com")).thenReturn("refresh-token");
+
+            RefreshTokenRequest request = new RefreshTokenRequest();
+            request.setToken("dummy-token");
+
+            UserResponse response = underTest.refreshToken(request);
+
+            assertEquals("new-dummy-token", response.access_token());
+            assertEquals("refresh-token", response.refresh_token());
+
+            verify(jwtUtils).validateToken(anyString());
+            verify(jwtUtils).generateToken(anyString(), anyMap());
+            verify(refreshTokenService).createRefreshToken("test@user.com");
+            verify(userRepository).findByEmail("test@user.com");
         }
     }
 }

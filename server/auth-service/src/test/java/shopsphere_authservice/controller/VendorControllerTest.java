@@ -20,7 +20,6 @@ import shopsphere_authservice.service.AuthService;
 import shopsphere_shared.exceptions.ConflictException;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -216,10 +215,11 @@ class VendorControllerTest {
         @Test
         void googleLogin_success() throws Exception {
             GoogleLoginRequest request = new GoogleLoginRequest();
-            request.setIdToken("id-token");
+            request.setId_token("id-token");
 
-            when(authService.googleLogin(request, UserRole.VENDOR))
-                    .thenReturn(new UserResponse("dummy-token"));
+            UserResponse token = new UserResponse("dummy-token", "refresh-token");
+
+            when(authService.googleLogin(request, UserRole.VENDOR)).thenReturn(token);
 
             String requestString = objectMapper.writeValueAsString(request);
             mockMvc.perform(post("/api/v1/auth/vendor/google-login")
@@ -227,7 +227,8 @@ class VendorControllerTest {
                             .content(requestString))
                     .andExpect(status().isOk())
                     .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                    .andExpect(jsonPath("$.access_token").value("dummy-token"));
+                    .andExpect(jsonPath("$.access_token").value("dummy-token"))
+                    .andExpect(jsonPath("$.refresh_token").value(token.refresh_token()));
         }
     }
 }

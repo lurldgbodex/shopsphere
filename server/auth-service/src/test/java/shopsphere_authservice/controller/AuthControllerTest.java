@@ -222,7 +222,9 @@ class AuthControllerTest {
                     .password("P@ssword98")
                     .build();
 
-            when(authService.login(request)).thenReturn(new UserResponse("dummy-token"));
+            UserResponse token = new UserResponse("dummy-token", "refresh-token");
+
+            when(authService.login(request)).thenReturn(token);
             String requestString = objectMapper.writeValueAsString(request);
 
             mockMvc.perform(post("/api/v1/auth/login")
@@ -230,7 +232,8 @@ class AuthControllerTest {
                             .content(requestString))
                     .andExpect(status().isOk())
                     .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                    .andExpect(jsonPath("$.access_token").value("dummy-token"));
+                    .andExpect(jsonPath("$.access_token").value("dummy-token"))
+                    .andExpect(jsonPath("$.refresh_token").value(token.refresh_token()));
         }
 
         @Test
@@ -272,10 +275,10 @@ class AuthControllerTest {
         @Test
         void googleLogin_success() throws Exception {
             GoogleLoginRequest request = new GoogleLoginRequest();
-            request.setIdToken("id-token");
+            request.setId_token("id-token");
 
             when(authService.googleLogin(eq(request), any(UserRole.class)))
-                    .thenReturn(new UserResponse("dummy-token"));
+                    .thenReturn(new UserResponse("dummy-token", "dummy-refresh-token"));
 
             String requestString = objectMapper.writeValueAsString(request);
             mockMvc.perform(post("/api/v1/auth/google-login")
@@ -283,7 +286,8 @@ class AuthControllerTest {
                             .content(requestString))
                     .andExpect(status().isOk())
                     .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                    .andExpect(jsonPath("$.access_token").value("dummy-token"));
+                    .andExpect(jsonPath("$.access_token").value("dummy-token"))
+                    .andExpect(jsonPath("$.refresh_token").value("dummy-refresh-token"));
         }
     }
 }

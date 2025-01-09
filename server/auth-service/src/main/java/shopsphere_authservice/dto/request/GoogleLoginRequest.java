@@ -1,8 +1,10 @@
 package shopsphere_authservice.dto.request;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
 public class GoogleLoginRequest {
-    private String idToken;
+    @NotBlank(message = "id_token is required")
+    private String id_token;
 }

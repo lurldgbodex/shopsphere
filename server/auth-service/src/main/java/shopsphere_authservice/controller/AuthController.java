@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import shopsphere_authservice.dto.request.GoogleLoginRequest;
 import shopsphere_authservice.dto.request.LoginRequest;
+import shopsphere_authservice.dto.request.RefreshTokenRequest;
 import shopsphere_authservice.dto.request.RegisterRequest;
 import shopsphere_authservice.dto.response.UserResponse;
 import shopsphere_authservice.enums.UserRole;
@@ -34,7 +35,12 @@ public class AuthController {
     }
 
     @PostMapping("/google-login")
-    public ResponseEntity<UserResponse> googleLogin(@RequestBody GoogleLoginRequest request) {
+    public ResponseEntity<UserResponse> googleLogin(@RequestBody @Valid GoogleLoginRequest request) {
         return ResponseEntity.ok(authService.googleLogin(request, UserRole.USER));
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<UserResponse> refreshToken(@RequestBody @Valid RefreshTokenRequest request) {
+        return ResponseEntity.ok(authService.refreshToken(request));
     }
 }

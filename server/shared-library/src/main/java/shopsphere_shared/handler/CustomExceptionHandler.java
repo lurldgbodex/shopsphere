@@ -12,10 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import shopsphere_shared.dto.CustomResponse;
 import shopsphere_shared.dto.ValidationException;
-import shopsphere_shared.exceptions.BadRequestException;
-import shopsphere_shared.exceptions.ConflictException;
-import shopsphere_shared.exceptions.NotFoundException;
-import shopsphere_shared.exceptions.UnauthorizedException;
+import shopsphere_shared.exceptions.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -59,6 +56,12 @@ public class CustomExceptionHandler {
         return setResponse(ex.getMessage());
     }
 
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(ForbiddenException.class)
+    public CustomResponse handleForbiddenException(ForbiddenException ex) {
+        return setResponse(ex.getMessage());
+    }
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
     public CustomResponse handleHttpMediaNotSupported(HttpMediaTypeNotSupportedException ex) {
@@ -80,6 +83,12 @@ public class CustomExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NoHandlerFoundException.class)
     public CustomResponse handleNoHandlerFound(NoHandlerFoundException ex) {
+        return setResponse(ex.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(MissingHeaderException.class)
+    public CustomResponse handleMissingHeader(MissingHeaderException ex) {
         return setResponse(ex.getMessage());
     }
 

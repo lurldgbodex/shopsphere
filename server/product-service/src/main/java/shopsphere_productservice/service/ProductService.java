@@ -15,24 +15,23 @@ import shopsphere_shared.exceptions.*;
 @RequiredArgsConstructor
 public class ProductService {
 
-    private final ProductUtil productUtil;
     private final ProductRepository productRepository;
 
     public ProductDto getProductById(String productID) {
         Product product = findByID(productID);
 
-        return productUtil.mapToDto(product);
+        return ProductUtil.mapToDto(product);
     }
 
     public PaginatedResponse<ProductDto> getProducts(String category, Pageable pageable) {
         if (category == null || category.isBlank()) {
             Page<Product> products = productRepository.findAll(pageable);
 
-            return new PaginatedResponse<>(products.map(productUtil::mapToDto));
+            return new PaginatedResponse<>(products.map(ProductUtil::mapToDto));
         }
 
         Page<Product> products = productRepository.findByCategory(category, pageable);
-        return new PaginatedResponse<>(products.map(productUtil::mapToDto));
+        return new PaginatedResponse<>(products.map(ProductUtil::mapToDto));
     }
 
     private Product findByID(String productID) {

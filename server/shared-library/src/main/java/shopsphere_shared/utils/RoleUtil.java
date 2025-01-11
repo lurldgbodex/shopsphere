@@ -6,8 +6,8 @@ import shopsphere_shared.Role;
 import shopsphere_shared.exceptions.ForbiddenException;
 
 @Component
-public class RoleUtils {
-    public void verifyRole(HttpHeaders headers, Role role) {
+public class RoleUtil {
+    public static void verifyRole(HttpHeaders headers, Role role) {
         String userRole = headers.getFirst("X-User-Role");
         String requiredRole = role.toString();
 

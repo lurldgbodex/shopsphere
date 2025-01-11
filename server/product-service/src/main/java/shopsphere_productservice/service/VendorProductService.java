@@ -10,7 +10,7 @@ import shopsphere_productservice.repository.ProductRepository;
 import shopsphere_productservice.utils.ProductUtil;
 import shopsphere_shared.Role;
 import shopsphere_shared.exceptions.*;
-import shopsphere_shared.utils.RoleUtils;
+import shopsphere_shared.utils.RoleUtil;
 
 import java.time.LocalDateTime;
 
@@ -18,32 +18,28 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class VendorProductService {
 
-    private final RoleUtils roleUtil;
-    private final ProductUtil productUtil;
     private final ProductRepository productRepository;
 
     public ProductDto createProduct(CreateRequest request, HttpHeaders headers) {
-        roleUtil.verifyRole(headers, Role.VENDOR);
+        RoleUtil.verifyRole(headers, Role.VENDOR);
 
-        String vendorId = headers.getFirst("X-User-id");
-        if (vendorId.isBlank()) {
-            throw new BadRequestException("missing required data - userId");
-        }
+        String vendorId = retrieveUserId(headers);
 
         Product newProduct = Product.builder()
+                .vendorId(vendorId)
                 .name(request.getName())
                 .price(request.getPrice())
+                .images(request.getImages())
                 .quantity(request.getQuantity())
                 .category(request.getCategory())
-                .vendorId(vendorId)
                 .description(request.getDescription())
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
                 .build();
 
-        productRepository.save(newProduct);
+        newProduct = productRepository.save(newProduct);
 
-        return productUtil.mapToDto(newProduct);
+        return ProductUtil.mapToDto(newProduct);
     }
 
     public void updateInventory(String productId, int quantityDelta) {
@@ -61,7 +57,7 @@ public class VendorProductService {
     }
 
     public ProductDto updateProduct(String productId, ProductDto request, HttpHeaders headers) {
-        roleUtil.verifyRole(headers, Role.VENDOR);
+        RoleUtil.verifyRole(headers, Role.VENDOR);
 
         String userId = retrieveUserId(headers);
 
@@ -87,11 +83,11 @@ public class VendorProductService {
         product.setUpdatedAt(request.getUpdated_at());
 
         productRepository.save(product);
-        return productUtil.mapToDto(product);
+        return ProductUtil.mapToDto(product);
     }
 
     public void deleteProduct(String productId, HttpHeaders headers) {
-        roleUtil.verifyRole(headers, Role.VENDOR);
+        RoleUtil.verifyRole(headers, Role.VENDOR);
 
         Product product = findByID(productId);
         String userID = retrieveUserId(headers);
@@ -115,7 +111,11 @@ public class VendorProductService {
     private String retrieveUserId(HttpHeaders headers) {
         String userId = headers.getFirst("X-User-Id");
 
-        if (userId.isBlank()) {
+        try {
+            if (userId.isBlank()) {
+                throw new MissingHeaderException("missing required data - userID");
+            }
+        } catch (NullPointerException ex) {
             throw new MissingHeaderException("missing required data - userID");
         }
 

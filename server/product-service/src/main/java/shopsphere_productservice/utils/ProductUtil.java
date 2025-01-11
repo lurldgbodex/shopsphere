@@ -7,7 +7,7 @@ import shopsphere_productservice.model.Product;
 @Component
 public class ProductUtil {
 
-    public ProductDto mapToDto(Product product) {
+    public static ProductDto mapToDto(Product product) {
         return ProductDto.builder()
                 .id(product.getId())
                 .name(product.getName())

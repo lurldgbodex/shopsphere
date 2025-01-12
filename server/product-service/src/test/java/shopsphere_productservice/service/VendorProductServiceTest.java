@@ -13,8 +13,10 @@ import shopsphere_productservice.dto.request.CreateRequest;
 import shopsphere_productservice.dto.response.ProductDto;
 import shopsphere_productservice.model.Product;
 import shopsphere_productservice.repository.ProductRepository;
+import shopsphere_shared.exceptions.ConflictException;
 import shopsphere_shared.exceptions.ForbiddenException;
 import shopsphere_shared.exceptions.MissingHeaderException;
+import shopsphere_shared.exceptions.NotFoundException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -31,12 +33,26 @@ class VendorProductServiceTest {
     @InjectMocks private VendorProductService underTest;
 
     private HttpHeaders headers;
+    private Product product;
 
     @BeforeEach
     void setUp() {
         headers = new HttpHeaders();
         headers.set("X-User-Role", "vendor");
         headers.set("X-User-Id", "user-id");
+
+        product = Product.builder()
+                .id("product-id")
+                .name("Test product")
+                .price(10)
+                .category("Testing")
+                .quantity(14)
+                .vendorId("user-id")
+                .images(List.of("product-image"))
+                .description("Testing update product")
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .build();
     }
 
     @Nested
@@ -129,24 +145,6 @@ class VendorProductServiceTest {
     @Nested
     class UpdateProductTests {
 
-        private Product product;
-
-        @BeforeEach
-        void setUp() {
-            product = Product.builder()
-                    .id("product-id")
-                    .name("Test product")
-                    .price(10)
-                    .category("Testing")
-                    .quantity(14)
-                    .vendorId("user-id")
-                    .images(List.of("product-image"))
-                    .description("Testing update product")
-                    .createdAt(LocalDateTime.now())
-                    .updatedAt(LocalDateTime.now())
-                    .build();
-        }
-
         @Test
         void updateProduct_PartialUpdateOfProduct() {
             when(productRepository.findById("product-id")).thenReturn(Optional.of(product));
@@ -172,13 +170,110 @@ class VendorProductServiceTest {
             verify(productRepository).save(any(Product.class));
 
         }
+
+        @Test
+        void updateProduct_fullUpdate() {
+            when(productRepository.findById("product-id")).thenReturn(Optional.of(product));
+
+            ProductDto request = ProductDto.builder()
+                    .name("update test product")
+                    .price(10.2)
+                    .category("test")
+                    .quantity(10)
+                    .images(List.of("updated-image-url"))
+                    .description("Updated the test product")
+                    .build();
+
+            ProductDto response = underTest.updateProduct("product-id", request, headers);
+
+            assertEquals(product.getId(), response.getId());
+            assertEquals(product.getVendorId(), response.getVendor_id());
+
+            assertEquals(request.getCategory(), response.getCategory());
+            assertEquals(request.getQuantity(), response.getQuantity());
+            assertEquals(request.getName(), response.getName());
+            assertEquals(request.getPrice(), response.getPrice());
+            assertEquals(request.getDescription(), response.getDescription());
+
+            verify(productRepository).save(any(Product.class));
+        }
+
+        @Test
+        void updateProduct_UserNotVendor() {
+            ProductDto updateRequest = ProductDto.builder()
+                    .name("update product")
+                    .build();
+
+            headers = new HttpHeaders();
+            headers.set("X-User-Role", "user");
+
+            Exception ex = assertThrows(ForbiddenException.class, () ->
+                    underTest.updateProduct("product-id", updateRequest, headers));
+
+            assertEquals("Access Denied", ex.getMessage());
+
+            verify(productRepository, never()).save(any(Product.class));
+        }
+
+        @Test
+        void updateProduct_ProductNotBelongingToVendor() {
+            product.setVendorId("vendor-id");
+
+            ProductDto updateRequest = ProductDto.builder()
+                    .price(5.2)
+                    .build();
+
+            when(productRepository.findById("product-id")).thenReturn(Optional.of(product));
+            Exception ex = assertThrows(ForbiddenException.class, () ->
+                    underTest.updateProduct("product-id", updateRequest, headers));
+
+            assertEquals("You do not have authorization to perform action", ex.getMessage());
+
+            verify(productRepository, never()).save(any(Product.class));
+        }
     }
 
     @Nested
     class UpdateInventoryTests {
 
         @Test
-        void updateInventory() {
+        void updateInventory_increaseInventory() {
+            when(productRepository.findById("product-id")).thenReturn(Optional.of(product));
+
+            assertDoesNotThrow(() -> underTest.updateInventory("product-id", 8));
+
+            verify(productRepository).save(any(Product.class));
+        }
+
+        @Test
+        void updateInventory_reduceInventory() {
+            when(productRepository.findById("product-id")).thenReturn(Optional.of(product));
+
+            assertDoesNotThrow(() -> underTest.updateInventory("product-id", -4));
+
+            verify(productRepository).save(any(Product.class));
+        }
+
+        @Test
+        void updateInventory_insufficientInventory() {
+            when(productRepository.findById("product-id")).thenReturn(Optional.of(product));
+
+            Exception ex = assertThrows(ConflictException.class,
+                    () -> underTest.updateInventory("product-id", -20));
+
+            assertEquals("insufficient inventory", ex.getMessage());
+            verify(productRepository, never()).save(any(Product.class));
+        }
+
+        @Test
+        void updateInventory_invalidProductId() {
+            when(productRepository.findById("product-id")).thenReturn(Optional.empty());
+
+            Exception ex = assertThrows(NotFoundException.class,
+                    () -> underTest.updateInventory("product-id", 3));
+
+            assertEquals("product not found", ex.getMessage());
+            verify(productRepository, never()).save(any(Product.class));
         }
     }
 
@@ -186,10 +281,47 @@ class VendorProductServiceTest {
     class DeleteProductTests {
 
         @Test
-        void deleteProduct() {
+        void deleteProduct_success() {
+            when(productRepository.findById("product-id")).thenReturn(Optional.of(product));
+
+            assertDoesNotThrow(() -> underTest.deleteProduct("product-id", headers));
+            verify(productRepository).findById("product-id");
+            verify(productRepository).delete(any(Product.class));
+        }
+
+        @Test
+        void deleteProduct_UserNotVendor() {
+            headers = new HttpHeaders();
+            headers.set("X-User-Role", "user");
+
+            Exception ex = assertThrows(ForbiddenException.class, () ->
+                    underTest.deleteProduct("product-id", headers));
+
+            assertEquals("Access Denied", ex.getMessage());
+            verify(productRepository, never()).save(any(Product.class));
+        }
+
+        @Test
+        void deleteProduct_ProductNotBelongingToVendor() {
+            product.setVendorId("vendor-id");
+
+            when(productRepository.findById("product-id")).thenReturn(Optional.of(product));
+            Exception ex = assertThrows(ForbiddenException.class, () ->
+                    underTest.deleteProduct("product-id", headers));
+
+            assertEquals("You do not have authorization to perform action", ex.getMessage());
+            verify(productRepository, never()).save(any(Product.class));
+        }
+
+        @Test
+        void deleteProduct_invalidProductId() {
+            when(productRepository.findById("product-id")).thenReturn(Optional.empty());
+
+            assertThrows(NotFoundException.class,
+                    () -> underTest.deleteProduct("product-id", headers));
+
+            verify(productRepository).findById("product-id");
+            verify(productRepository, never()).save(any(Product.class));
         }
     }
-
-
-
 }

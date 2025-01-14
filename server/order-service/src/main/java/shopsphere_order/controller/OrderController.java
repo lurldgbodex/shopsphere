@@ -41,7 +41,7 @@ public class OrderController {
 
     @PatchMapping("/{orderId}")
     public ResponseEntity<Void> updateOrderStatus(@PathVariable UUID orderId,
-                                                  @RequestBody UpdateRequest status,
+                                                  @RequestBody @Valid UpdateRequest status,
                                                   @RequestHeader HttpHeaders header) {
         orderService.updateOrderStatus(orderId, status.getStatus(), header);
         return ResponseEntity.noContent().build();

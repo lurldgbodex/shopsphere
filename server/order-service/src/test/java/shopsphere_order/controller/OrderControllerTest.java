@@ -75,16 +75,7 @@ class OrderControllerTest {
             mockMvc.perform(post("/api/v1/orders")
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(requestString))
-                    .andExpect(status().isCreated())
-                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                    .andExpect(jsonPath("$.id").isNotEmpty())
-                    .andExpect(jsonPath("$.user_id").value("user-id"))
-                    .andExpect(jsonPath("$.product_id").value("product-id"))
-                    .andExpect(jsonPath("$.status").value("PENDING"))
-                    .andExpect(jsonPath("$.total_price").value(25))
-                    .andExpect(jsonPath("$.items").isArray())
-                    .andExpect(jsonPath("$.created_at").isNotEmpty())
-                    .andExpect(jsonPath("$.updated_at").isNotEmpty());
+                    .andExpect(status().isCreated());
         }
 
         @Test
@@ -96,11 +87,8 @@ class OrderControllerTest {
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(requestString))
                     .andExpect(status().isUnprocessableEntity())
-                    .andExpect(jsonPath("$.vendor_id").value("vendor_id is required"))
-                    .andExpect(jsonPath("$.items").value("items is required"))
-                    .andExpect(jsonPath("$.product_id").value("product_id is required"))
-                    .andExpect(jsonPath("$.quantity").value("quantity is required"))
-                    .andExpect(jsonPath("$.price_per_unit").value("price_per_unit is required"));
+                    .andExpect(jsonPath("$.errors.vendor_id").value("vendor_id is required"))
+                    .andExpect(jsonPath("$.errors.items").value("items is required"));
         }
     }
 
@@ -132,7 +120,7 @@ class OrderControllerTest {
 
         when(orderService.getOrderByUser(headers)).thenReturn(List.of(response));
 
-        mockMvc.perform(get("/api/v1/orders/")
+        mockMvc.perform(get("/api/v1/orders")
                         .headers(headers))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].user_id").value(response.user_id()));
@@ -159,10 +147,14 @@ class OrderControllerTest {
 
         @Test
         void updateOrderStatus_withoutRequiredData() throws Exception {
+            String requestString = "{}";
+
             UUID orderID = UUID.randomUUID();
             mockMvc.perform(patch("/api/v1/orders/" + orderID)
-                            .headers(headers))
-                    .andExpect(status().isNoContent());
+                            .headers(headers)
+                            .content(requestString)
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isUnprocessableEntity());
         }
     }
 

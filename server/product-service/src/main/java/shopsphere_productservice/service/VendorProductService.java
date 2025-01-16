@@ -13,6 +13,7 @@ import shopsphere_shared.exceptions.*;
 import shopsphere_shared.utils.RoleUtil;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -21,7 +22,7 @@ public class VendorProductService {
     private final ProductRepository productRepository;
 
     public ProductDto createProduct(CreateRequest request, HttpHeaders headers) {
-        RoleUtil.verifyRole(headers, Role.VENDOR);
+        RoleUtil.verifyRole(headers, List.of(Role.VENDOR));
 
         String vendorId = retrieveUserId(headers);
 
@@ -57,7 +58,7 @@ public class VendorProductService {
     }
 
     public ProductDto updateProduct(String productId, ProductDto request, HttpHeaders headers) {
-        RoleUtil.verifyRole(headers, Role.VENDOR);
+        RoleUtil.verifyRole(headers, List.of(Role.VENDOR));
 
         String userId = retrieveUserId(headers);
 
@@ -87,7 +88,7 @@ public class VendorProductService {
     }
 
     public void deleteProduct(String productId, HttpHeaders headers) {
-        RoleUtil.verifyRole(headers, Role.VENDOR);
+        RoleUtil.verifyRole(headers, List.of(Role.VENDOR));
 
         Product product = findByID(productId);
         String userID = retrieveUserId(headers);

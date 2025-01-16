@@ -22,6 +22,7 @@
         <module>gateway-service</module>
         <module>discovery-server</module>
         <module>notification-service</module>
+        <module>payment-service</module>
     </modules>
 
     <build>

@@ -54,6 +54,17 @@ services:
       timeout: 5s
       retries: 3
 
+  broker:
+    image: rabbitmq:3-management-alpine
+    ports:
+      - 15672:15672
+      - 5672:5672
+    environment:
+      - RABBITMQ_PASSWORD=guest
+      - RABBITMQ_USERNAME=guest
+    networks:
+      - shopsphere-net
+
   auth-service:
     build: ./auth-service
     container_name: auth-service

@@ -21,6 +21,7 @@
         <module>product-service</module>
         <module>gateway-service</module>
         <module>discovery-server</module>
+        <module>notification-service</module>
     </modules>
 
     <build>

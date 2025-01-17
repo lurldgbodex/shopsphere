@@ -58,7 +58,7 @@ public class StripePaymentGateway implements PaymentGateway {
         return PaymentGatewayResponse.builder()
                 .transaction_id(intent.getId())
                 .status(intent.getStatus())
-                .gateway_message("Payment initiates successfully")
+                .gateway_message("Payment initiated successfully")
                 .build();
     }
 }

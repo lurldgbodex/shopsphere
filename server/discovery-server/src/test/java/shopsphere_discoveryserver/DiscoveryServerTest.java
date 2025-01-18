@@ -1,13 +1,12 @@
-package shopsphere.shared;
+package shopsphere_discoveryserver;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class SharedLibraryApplicationTests {
+class DiscoveryServerTest {
 
-	@Test
-	void contextLoads() {
-	}
+    @Test
+    void contextLoads() {}
 
 }

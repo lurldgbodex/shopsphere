@@ -16,8 +16,8 @@ import shopsphere_payment.entity.Payment;
 import shopsphere_payment.enums.PaymentStatus;
 import shopsphere_payment.repository.PaymentRepository;
 import shopsphere_payment.service.interfaces.PaymentGateway;
-import shopsphere_shared.exceptions.ForbiddenException;
-import shopsphere_shared.exceptions.NotFoundException;
+import shopsphere.shared.exceptions.ForbiddenException;
+import shopsphere.shared.exceptions.NotFoundException;
 
 import java.math.BigDecimal;
 import java.util.Optional;

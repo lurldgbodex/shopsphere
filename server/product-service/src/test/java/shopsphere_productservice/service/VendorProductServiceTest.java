@@ -13,10 +13,10 @@ import shopsphere_productservice.dto.request.CreateRequest;
 import shopsphere_productservice.dto.response.ProductDto;
 import shopsphere_productservice.model.Product;
 import shopsphere_productservice.repository.ProductRepository;
-import shopsphere_shared.exceptions.ConflictException;
-import shopsphere_shared.exceptions.ForbiddenException;
-import shopsphere_shared.exceptions.MissingHeaderException;
-import shopsphere_shared.exceptions.NotFoundException;
+import shopsphere.shared.exceptions.ConflictException;
+import shopsphere.shared.exceptions.ForbiddenException;
+import shopsphere.shared.exceptions.MissingHeaderException;
+import shopsphere.shared.exceptions.NotFoundException;
 
 import java.time.LocalDateTime;
 import java.util.List;

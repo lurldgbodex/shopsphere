@@ -12,8 +12,8 @@ import shopsphere_authservice.entity.User;
 import shopsphere_authservice.enums.UserRole;
 import shopsphere_authservice.repository.UserRepository;
 import shopsphere_authservice.utils.JwtUtils;
-import shopsphere_shared.exceptions.ConflictException;
-import shopsphere_shared.exceptions.UnauthorizedException;
+import shopsphere.shared.exceptions.ConflictException;
+import shopsphere.shared.exceptions.UnauthorizedException;
 
 import java.util.Map;
 

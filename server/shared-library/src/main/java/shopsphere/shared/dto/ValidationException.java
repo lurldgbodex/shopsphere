@@ -1,4 +1,4 @@
-package shopsphere_shared.dto;
+package shopsphere.shared.dto;
 
 import java.util.Map;
 

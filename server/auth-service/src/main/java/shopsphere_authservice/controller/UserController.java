@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import shopsphere_authservice.dto.response.UserDto;
 import shopsphere_authservice.service.UserService;
-import shopsphere_shared.dto.GetUser;
+import shopsphere.shared.dto.GetUser;
 
 @RestController
 @RequiredArgsConstructor

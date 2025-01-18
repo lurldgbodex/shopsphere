@@ -1,4 +1,4 @@
-package shopsphere_shared.exceptions;
+package shopsphere.shared.exceptions;
 
 public class NotFoundException extends RuntimeException {
     public NotFoundException(String message) {

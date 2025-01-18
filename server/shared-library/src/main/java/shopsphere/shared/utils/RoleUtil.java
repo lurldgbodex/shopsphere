@@ -1,10 +1,10 @@
-package shopsphere_shared.utils;
+package shopsphere.shared.utils;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
-import shopsphere_shared.enums.Role;
-import shopsphere_shared.exceptions.ForbiddenException;
-import shopsphere_shared.exceptions.MissingHeaderException;
+import shopsphere.shared.enums.Role;
+import shopsphere.shared.exceptions.ForbiddenException;
+import shopsphere.shared.exceptions.MissingHeaderException;
 
 import java.util.List;
 

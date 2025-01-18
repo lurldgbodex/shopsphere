@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import shopsphere_authservice.entity.RefreshToken;
 import shopsphere_authservice.repository.RefreshTokenRepository;
 import shopsphere_authservice.utils.JwtUtils;
-import shopsphere_shared.exceptions.UnauthorizedException;
+import shopsphere.shared.exceptions.UnauthorizedException;
 
 import java.time.Instant;
 import java.util.concurrent.TimeUnit;

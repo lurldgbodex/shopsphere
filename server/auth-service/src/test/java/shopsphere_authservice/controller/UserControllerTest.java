@@ -14,8 +14,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import shopsphere_authservice.dto.response.UserDto;
 import shopsphere_authservice.enums.UserRole;
 import shopsphere_authservice.service.UserService;
-import shopsphere_shared.dto.GetUser;
-import shopsphere_shared.exceptions.NotFoundException;
+import shopsphere.shared.dto.GetUser;
+import shopsphere.shared.exceptions.NotFoundException;
 
 import java.time.LocalDateTime;
 

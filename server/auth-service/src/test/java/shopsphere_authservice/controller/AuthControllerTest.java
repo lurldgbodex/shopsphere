@@ -18,8 +18,8 @@ import shopsphere_authservice.dto.request.RegisterRequest;
 import shopsphere_authservice.dto.response.UserResponse;
 import shopsphere_authservice.enums.UserRole;
 import shopsphere_authservice.service.AuthService;
-import shopsphere_shared.exceptions.ConflictException;
-import shopsphere_shared.exceptions.UnauthorizedException;
+import shopsphere.shared.exceptions.ConflictException;
+import shopsphere.shared.exceptions.UnauthorizedException;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;

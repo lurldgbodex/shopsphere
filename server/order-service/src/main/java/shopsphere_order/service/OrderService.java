@@ -11,10 +11,10 @@ import shopsphere_order.entity.Order;
 import shopsphere_order.entity.OrderItem;
 import shopsphere_order.enums.OrderStatus;
 import shopsphere_order.repository.OrderRepository;
-import shopsphere_shared.dto.HeaderPayload;
-import shopsphere_shared.exceptions.ForbiddenException;
-import shopsphere_shared.exceptions.NotFoundException;
-import shopsphere_shared.utils.HeaderUtil;
+import shopsphere.shared.dto.HeaderPayload;
+import shopsphere.shared.exceptions.ForbiddenException;
+import shopsphere.shared.exceptions.NotFoundException;
+import shopsphere.shared.utils.HeaderUtil;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

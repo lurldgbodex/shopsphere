@@ -1,4 +1,4 @@
-package shopsphere_shared.handler;
+package shopsphere.shared.handler;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -10,9 +10,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
-import shopsphere_shared.dto.CustomResponse;
-import shopsphere_shared.dto.ValidationException;
-import shopsphere_shared.exceptions.*;
+import shopsphere.shared.dto.CustomResponse;
+import shopsphere.shared.dto.ValidationException;
+import shopsphere.shared.exceptions.*;
+
 
 import java.util.HashMap;
 import java.util.Map;

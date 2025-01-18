@@ -12,10 +12,10 @@ import shopsphere_payment.entity.Payment;
 import shopsphere_payment.enums.PaymentStatus;
 import shopsphere_payment.repository.PaymentRepository;
 import shopsphere_payment.service.interfaces.PaymentGateway;
-import shopsphere_shared.Role;
-import shopsphere_shared.exceptions.NotFoundException;
-import shopsphere_shared.utils.HeaderUtil;
-import shopsphere_shared.utils.RoleUtil;
+import shopsphere.shared.enums.Role;
+import shopsphere.shared.exceptions.NotFoundException;
+import shopsphere.shared.utils.HeaderUtil;
+import shopsphere.shared.utils.RoleUtil;
 
 import java.util.List;
 import java.util.UUID;

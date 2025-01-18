@@ -1,7 +1,7 @@
-package shopsphere_shared.utils;
+package shopsphere.shared.utils;
 
 import org.springframework.http.HttpHeaders;
-import shopsphere_shared.dto.HeaderPayload;
+import shopsphere.shared.dto.HeaderPayload;
 
 public class HeaderUtil {
 

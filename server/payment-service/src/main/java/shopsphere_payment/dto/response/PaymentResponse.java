@@ -1,7 +1,7 @@
-package shopsphere_payment.dto.response;
+package shopsphere_logging.dto.response;
 
 import lombok.Builder;
-import shopsphere_payment.enums.PaymentStatus;
+import shopsphere_logging.enums.PaymentStatus;
 
 import java.util.UUID;
 

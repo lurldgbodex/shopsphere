@@ -1,4 +1,4 @@
-package shopsphere_payment.controller;
+package shopsphere_logging.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -6,9 +6,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import shopsphere_payment.dto.request.PaymentRequest;
-import shopsphere_payment.dto.response.PaymentResponse;
-import shopsphere_payment.service.PaymentService;
+import shopsphere_logging.dto.request.PaymentRequest;
+import shopsphere_logging.dto.response.PaymentResponse;
+import shopsphere_logging.service.PaymentService;
 
 import java.util.UUID;
 

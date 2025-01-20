@@ -1,4 +1,4 @@
-package shopsphere_payment.config;
+package shopsphere_logging.config;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;

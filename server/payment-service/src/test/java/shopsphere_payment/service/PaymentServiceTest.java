@@ -1,4 +1,4 @@
-package shopsphere_payment.service;
+package shopsphere_logging.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,14 +8,14 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.http.HttpHeaders;
-import shopsphere_payment.dto.request.PaymentGatewayRequest;
-import shopsphere_payment.dto.request.PaymentRequest;
-import shopsphere_payment.dto.response.PaymentGatewayResponse;
-import shopsphere_payment.dto.response.PaymentResponse;
-import shopsphere_payment.entity.Payment;
-import shopsphere_payment.enums.PaymentStatus;
-import shopsphere_payment.repository.PaymentRepository;
-import shopsphere_payment.service.interfaces.PaymentGateway;
+import shopsphere_logging.dto.request.PaymentGatewayRequest;
+import shopsphere_logging.dto.request.PaymentRequest;
+import shopsphere_logging.dto.response.PaymentGatewayResponse;
+import shopsphere_logging.dto.response.PaymentResponse;
+import shopsphere_logging.entity.Payment;
+import shopsphere_logging.enums.PaymentStatus;
+import shopsphere_logging.repository.PaymentRepository;
+import shopsphere_logging.service.interfaces.PaymentGateway;
 import shopsphere.shared.exceptions.ForbiddenException;
 import shopsphere.shared.exceptions.NotFoundException;
 

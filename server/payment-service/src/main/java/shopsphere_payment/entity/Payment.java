@@ -1,10 +1,10 @@
-package shopsphere_payment.entity;
+package shopsphere_logging.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import shopsphere_payment.enums.PaymentStatus;
+import shopsphere_logging.enums.PaymentStatus;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

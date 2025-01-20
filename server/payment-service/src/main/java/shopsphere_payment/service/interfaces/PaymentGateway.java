@@ -1,7 +1,7 @@
-package shopsphere_payment.service.interfaces;
+package shopsphere_logging.service.interfaces;
 
-import shopsphere_payment.dto.request.PaymentGatewayRequest;
-import shopsphere_payment.dto.response.PaymentGatewayResponse;
+import shopsphere_logging.dto.request.PaymentGatewayRequest;
+import shopsphere_logging.dto.response.PaymentGatewayResponse;
 
 public interface PaymentGateway {
     PaymentGatewayResponse initiatePayment(PaymentGatewayRequest request);

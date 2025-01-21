@@ -2,9 +2,13 @@ name: Server CI Orchestrator
 
 on:
   push:
+    branches:
+      - 'main'
     paths:
       - 'server/**'
   pull_request:
+    branches:
+      - 'main'
     paths:
       - 'server/**'
 
@@ -17,7 +21,7 @@ jobs:
 
       - name: setup workflows
         run: ./setup-workflows/sh
-        
+
   auth-service:
     uses: ./.github/workflows/auth-service-ci.yaml
     with:

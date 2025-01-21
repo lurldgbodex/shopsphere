@@ -1,4 +1,4 @@
-package shopsphere_payment.service;
+package shopsphere_logging.service;
 
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
@@ -6,10 +6,10 @@ import com.stripe.model.PaymentIntent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import shopsphere_payment.dto.request.PaymentGatewayRequest;
-import shopsphere_payment.dto.response.PaymentGatewayResponse;
-import shopsphere_payment.exception.PaymentException;
-import shopsphere_payment.service.interfaces.PaymentGateway;
+import shopsphere_logging.dto.request.PaymentGatewayRequest;
+import shopsphere_logging.dto.response.PaymentGatewayResponse;
+import shopsphere_logging.exception.PaymentException;
+import shopsphere_logging.service.interfaces.PaymentGateway;
 
 import java.math.BigDecimal;
 import java.util.HashMap;

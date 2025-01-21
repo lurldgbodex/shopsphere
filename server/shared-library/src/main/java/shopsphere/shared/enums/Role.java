@@ -1,4 +1,4 @@
-package shopsphere_shared;
+package shopsphere.shared.enums;
 
 public enum Role {
     USER,

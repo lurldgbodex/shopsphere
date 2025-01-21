@@ -1,4 +1,4 @@
-package shopsphere_payment.dto.request;
+package shopsphere_logging.dto.request;
 
 import lombok.Builder;
 

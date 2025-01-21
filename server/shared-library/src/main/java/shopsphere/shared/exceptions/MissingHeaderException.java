@@ -1,4 +1,4 @@
-package shopsphere_shared.exceptions;
+package shopsphere.shared.exceptions;
 
 public class MissingHeaderException extends RuntimeException{
     public MissingHeaderException(String message) {

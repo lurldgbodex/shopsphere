@@ -1,21 +1,21 @@
-package shopsphere_payment.service;
+package shopsphere_logging.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
-import shopsphere_payment.dto.request.PaymentGatewayRequest;
-import shopsphere_payment.dto.request.PaymentRequest;
-import shopsphere_payment.dto.response.PaymentGatewayResponse;
-import shopsphere_payment.dto.response.PaymentResponse;
-import shopsphere_payment.entity.Payment;
-import shopsphere_payment.enums.PaymentStatus;
-import shopsphere_payment.repository.PaymentRepository;
-import shopsphere_payment.service.interfaces.PaymentGateway;
-import shopsphere_shared.Role;
-import shopsphere_shared.exceptions.NotFoundException;
-import shopsphere_shared.utils.HeaderUtil;
-import shopsphere_shared.utils.RoleUtil;
+import shopsphere_logging.dto.request.PaymentGatewayRequest;
+import shopsphere_logging.dto.request.PaymentRequest;
+import shopsphere_logging.dto.response.PaymentGatewayResponse;
+import shopsphere_logging.dto.response.PaymentResponse;
+import shopsphere_logging.entity.Payment;
+import shopsphere_logging.enums.PaymentStatus;
+import shopsphere_logging.repository.PaymentRepository;
+import shopsphere_logging.service.interfaces.PaymentGateway;
+import shopsphere.shared.enums.Role;
+import shopsphere.shared.exceptions.NotFoundException;
+import shopsphere.shared.utils.HeaderUtil;
+import shopsphere.shared.utils.RoleUtil;
 
 import java.util.List;
 import java.util.UUID;

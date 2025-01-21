@@ -1,4 +1,4 @@
-package shopsphere_shared;
+package shopsphere.shared;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

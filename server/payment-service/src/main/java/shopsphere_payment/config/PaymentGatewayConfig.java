@@ -1,9 +1,9 @@
-package shopsphere_payment.config;
+package shopsphere_logging.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import shopsphere_payment.service.StripePaymentGateway;
-import shopsphere_payment.service.interfaces.PaymentGateway;
+import shopsphere_logging.service.StripePaymentGateway;
+import shopsphere_logging.service.interfaces.PaymentGateway;
 
 @Configuration
 public class PaymentGatewayConfig {

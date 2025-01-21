@@ -15,8 +15,8 @@ import shopsphere_order.entity.Order;
 import shopsphere_order.entity.OrderItem;
 import shopsphere_order.enums.OrderStatus;
 import shopsphere_order.repository.OrderRepository;
-import shopsphere_shared.exceptions.ForbiddenException;
-import shopsphere_shared.exceptions.NotFoundException;
+import shopsphere.shared.exceptions.ForbiddenException;
+import shopsphere.shared.exceptions.NotFoundException;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

@@ -1,0 +1,18 @@
+name: Server CI Orchestrator
+
+on:
+  push:
+    paths:
+      - 'server/**'
+  pull_request:
+    paths:
+      - 'server/**'
+
+jobs:
+  auth-service:
+    uses: ./server/.github/workflows/auth-service-ci.yaml
+    with:
+      service-name: auth-service
+    secrets:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}

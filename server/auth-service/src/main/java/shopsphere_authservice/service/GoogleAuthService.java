@@ -2,7 +2,7 @@ package shopsphere_authservice.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import shopsphere_shared.exceptions.UnauthorizedException;
+import shopsphere.shared.exceptions.UnauthorizedException;
 
 import java.util.Map;
 

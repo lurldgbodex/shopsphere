@@ -4,12 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import shopsphere.shared.exceptions.NotFoundException;
 import shopsphere_productservice.dto.response.PaginatedResponse;
 import shopsphere_productservice.dto.response.ProductDto;
 import shopsphere_productservice.model.Product;
 import shopsphere_productservice.repository.ProductRepository;
 import shopsphere_productservice.utils.ProductUtil;
-import shopsphere_shared.exceptions.*;
 
 @Service
 @RequiredArgsConstructor

@@ -1,4 +1,4 @@
-package shopsphere_payment.dto.response;
+package shopsphere_logging.dto.response;
 
 import lombok.Builder;
 

@@ -69,7 +69,7 @@ services:
     build: ./auth-service
     container_name: auth-service
     ports:
-      - "8081:8080"
+      - "8181:8181"
     environment:
       SPRING_PROFILES_ACTIVE: docker
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/
@@ -79,6 +79,58 @@ services:
       - .env
     depends_on:
       postgres:
+        condition: service_healthy
+      discovery-server:
+        condition: service_healthy
+    networks:
+      - shopsphere-net
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  order-service:
+    build: ./order-service
+    container_name: order-service
+    ports:
+      - "8282:8282"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+    env_file:
+      - .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+      discovery-server:
+        condition: service_healthy
+    networks:
+      - shopsphere-net
+    logging:
+      driver: "json-file"
+      options:
+        max-file: 3
+        max-size: 10m
+
+  payment-service:
+    build: ./payment-service
+    container_name: payment-service
+    ports:
+      - '8383:8383'
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+    env_file:
+      - .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+      discovery-server:
         condition: service_healthy
     networks:
       - shopsphere-net
@@ -92,12 +144,32 @@ services:
     build: ./product-service
     container_name: product-service
     ports:
-      - "8082:8080"
+      - "8484:8484"
     environment:
       SPRING_PROFILES_ACTIVE: docker
       SPRING_DATA_MONGODB_URI: mongodb://mongodb:27017/products_db
     depends_on:
       mongodb:
+        condition: service_healthy
+    networks:
+      - shopsphere-net
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  notification-service:
+    build: ./notification-service
+    container_name: notification_service
+    ports:
+      - "8585:8585"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    depends_on:
+      broker:
+        condition: service_healthy
+      discovery-server:
         condition: service_healthy
     networks:
       - shopsphere-net
@@ -137,6 +209,12 @@ services:
       auth-service:
         condition: service_healthy
       product-service:
+        condition: service_healthy
+      order-service:
+        condition: service_healthy
+      payment-service:
+        condition: service_healthy
+      notification-service:
         condition: service_healthy
     logging:
       driver: "json-file"

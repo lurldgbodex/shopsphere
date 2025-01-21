@@ -1,18 +1,22 @@
 name: Auth Service CI/CD
 
 on:
-  push:
-    paths:
-      - 'server/auth-service/**'
-  pull_request:
-    paths:
-      - 'server/auth-service/**'
+  workflow_call:
+    inputs:
+      service-name:
+        required: true
+        type: string
+    secrets:
+      DOCKER_USERNAME:
+        required: true
+      DOCKER_PASSWORD:
+        required: true
 
 jobs:
-  call-reuseable:
+  call-reusable:
     uses: ./server/.github/workflows/reusable-workflow.yaml
     with:
-      service-name: auth-service
+      service-name: ${{ inputs.service-name }}
     secrets:
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}

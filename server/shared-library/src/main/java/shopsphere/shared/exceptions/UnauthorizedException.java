@@ -1,4 +1,4 @@
-package shopsphere_shared.exceptions;
+package shopsphere.shared.exceptions;
 
 public class UnauthorizedException extends RuntimeException {
     public UnauthorizedException(String message) {

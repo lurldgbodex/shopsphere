@@ -1,4 +1,4 @@
-name: Reusable CI Workflow
+name: Reusable Server CI
 
 on:
   workflow_call:
@@ -26,7 +26,7 @@ jobs:
           distribution: 'temurin'
 
       - name: build with maven
-        run: mvn clean install -DskipTests=true
+        run: mvn clean install
 
       - name: Build docker image
         run: |

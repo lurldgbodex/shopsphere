@@ -9,8 +9,17 @@ on:
       - 'server/**'
 
 jobs:
+  setup-workflows:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+
+      - name: setup workflows
+        run: ./setup-workflows/sh
+        
   auth-service:
-    uses: ./server/.github/workflows/auth-service-ci.yaml
+    uses: ./.github/workflows/auth-service-ci.yaml
     with:
       service-name: auth-service
     secrets:

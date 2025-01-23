@@ -2,6 +2,7 @@ package shopsphere_authservice.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import shopsphere_authservice.entity.RefreshToken;
 import shopsphere_authservice.repository.RefreshTokenRepository;
 import shopsphere_authservice.utils.JwtUtils;
@@ -11,6 +12,7 @@ import java.time.Instant;
 import java.util.concurrent.TimeUnit;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class RefreshTokenService {
 

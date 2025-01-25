@@ -20,7 +20,7 @@ public class JwtUtil {
 
         return JwtPayload.builder()
                 .email(claims.getSubject())
-                .userId(claims.get("userId", String.class))
+                .userId(claims.get("userId", Integer.class).toString())
                 .role(claims.get("role", String.class))
                 .build();
     }

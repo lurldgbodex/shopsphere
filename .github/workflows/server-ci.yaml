@@ -22,7 +22,15 @@ jobs:
       - name: setup workflows
         run: ./setup-workflows/sh
 
+      - name: Check Copied Workflows
+        run: |
+          if [ ! -f .github/workflows/auth-service-ci.yaml ]; then
+            echo "Workflow file not found. Exiting."
+            exit 1
+          fi
+
   auth-service:
+    needs: setup-workflows
     uses: ./.github/workflows/auth-service-ci.yaml
     with:
       service-name: auth-service

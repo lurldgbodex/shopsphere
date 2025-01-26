@@ -14,7 +14,7 @@ on:
 
 jobs:
   call-reusable:
-    uses: ./server/.github/workflows/reusable-workflow.yaml
+    uses: ./.github/workflows/reusable-workflow.yaml
     with:
       service-name: ${{ inputs.service-name }}
     secrets:

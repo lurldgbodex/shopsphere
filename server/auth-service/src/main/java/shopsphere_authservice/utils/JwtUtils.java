@@ -19,10 +19,10 @@ public class JwtUtils {
     @Value("${jwt.secret}")
     private String secret;
 
-    public String generateToken(String email, Map<String, Object> claims) {
+    public String generateToken(String userId, Map<String, Object> claims) {
         return Jwts.builder()
                 .claims(claims)
-                .subject(email)
+                .subject(userId)
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALID_TIME))
                 .signWith(generateSigningKey())

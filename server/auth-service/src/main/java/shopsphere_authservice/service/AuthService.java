@@ -89,9 +89,9 @@ public class AuthService {
 
     private UserResponse createToken(User user) {
         Map<String, Object> claims = Map.of(
-                "userId", user.getId(),
+                "email", user.getEmail(),
                 "role", user.getRole());
-        String accessToken = jwtUtil.generateToken(user.getEmail(), claims);
+        String accessToken = jwtUtil.generateToken(user.getId().toString(), claims);
         String refreshToken = refreshTokenService.createRefreshToken(user.getEmail());
 
         return new UserResponse(accessToken, refreshToken);

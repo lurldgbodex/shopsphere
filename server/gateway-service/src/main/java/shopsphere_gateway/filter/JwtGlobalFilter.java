@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 import shopsphere_gateway.dto.JwtPayload;
+import shopsphere_gateway.monitoring.GatewayMetrics;
 import shopsphere_gateway.utils.JwtUtil;
 
 import java.nio.charset.StandardCharsets;
@@ -30,6 +31,7 @@ public class JwtGlobalFilter implements GlobalFilter {
     private static final String USER_ROLE_HEADER = "X-User-Role";
 
     private final JwtUtil jwtUtil;
+    private final GatewayMetrics gatewayMetrics;
 
 
     @Override
@@ -38,7 +40,7 @@ public class JwtGlobalFilter implements GlobalFilter {
         String requestPath = request.getURI().getPath();
 
         log.info("JwtGlobalFilter called for path: {} ", requestPath);
-        if (requestPath.startsWith("/api/v1/auth")) {
+        if (requestPath.startsWith("/api/v1/auth") || requestPath.startsWith("/docs") || requestPath.startsWith("/swagger-ui")) {
             log.info("Skipping filter because it's unprotected route: {}", requestPath);
             return chain.filter(exchange);
         }
@@ -70,6 +72,7 @@ public class JwtGlobalFilter implements GlobalFilter {
             return chain.filter(exchange.mutate().request(modifiedRequest).build());
         } catch (Exception ex) {
             log.error("JWT validation failed: {}", ex.getMessage());
+            gatewayMetrics.incrementAuthenticationFailures();
             return unauthorizedResponse(exchange, "Invalid or expired token");
         }
     }

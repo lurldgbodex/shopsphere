@@ -65,6 +65,14 @@ services:
     networks:
       - shopsphere-net
 
+  zipkin:
+    container_name: zipkin
+    image: openzipkin/zipkin
+    ports:
+      - "9411:9411"
+    networks:
+      - shopsphere-net
+
   auth-service:
     build: ./auth-service
     container_name: auth-service

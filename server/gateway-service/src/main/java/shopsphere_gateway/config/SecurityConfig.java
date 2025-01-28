@@ -21,10 +21,7 @@ public class SecurityConfig {
                 .csrf(ServerHttpSecurity.CsrfSpec::disable) // CSRF disabled because this is a stateless API using token-based authentication
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeExchange(exchanges -> exchanges
-                        .pathMatchers("/api/v1/auth/**").permitAll()
-                        .pathMatchers("/eureka/**").hasRole("ADMIN")
-                        .pathMatchers("/api/docs/**", "/docs/**", "/swagger-ui/**").permitAll()
-                        .anyExchange().authenticated())
+                        .anyExchange().permitAll())
                 .build();
     }
 

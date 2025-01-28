@@ -19,8 +19,8 @@ public class JwtUtil {
         Claims claims = extractClaims(token);
 
         return JwtPayload.builder()
-                .email(claims.getSubject())
-                .userId(claims.get("userId", Integer.class).toString())
+                .userId(claims.getSubject())
+                .email(claims.get("email", String.class))
                 .role(claims.get("role", String.class))
                 .build();
     }
